@@ -7,6 +7,7 @@ class AppUser
     public $username;   // tashqi ko'rinadigan
     protected $role;    // faqat parent va child ishlata oladi
 
+
     public function __construct($username, $role = 'user')
     {
         $this->username = $username;
