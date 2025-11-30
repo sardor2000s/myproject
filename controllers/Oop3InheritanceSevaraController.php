@@ -5,33 +5,31 @@ use yii\web\Controller;
 use yii\web\Response;
 use Yii;
 
-// Bu controller Sevara uchun maxsus yaratilgan
-// Ichida faqat bitta endpoint: actionAddExample
 class Oop3InheritanceSevaraController extends Controller
 {
-    public $enableCsrfValidation = false; // Postman testlar uchun
+    public $enableCsrfValidation = false; // Postman yoki curl testida kerak
 
+    // Bitta endpoint: actionAddExample
     public function actionAddExample()
     {
-        // JSON formatda natija qaytadi
         Yii::$app->response->format = Response::FORMAT_JSON;
 
-        // POST orqali kelgan ma'lumotlar
+        // POST ma'lumotlarni olish (default qiymatlar bilan)
         $title   = Yii::$app->request->post('title', 'No title');
         $teacher = Yii::$app->request->post('teacher', 'No teacher');
         $video   = Yii::$app->request->post('video', null);
 
-        // MODEL (class)larni chaqiramiz — Sevaraga tegishli versiya
+        // OnlineCourseSevara klassidan obyekt yaratish
         $onlineCourse = new \app\models\OnlineCourseSevara($title, $teacher, $video);
 
-        // Obyektdagi metodlar orqali javob beramiz
+        // JSON shaklida javob
         return [
-            "status"       => "success",
-            "course_info"  => $onlineCourse->getInfo(),     // Parent metodi
-            "video_info"   => $onlineCourse->showVideo(),   // Child metodi
-            "title"        => $onlineCourse->getTitle(),    // Parent getter
-            "teacher"      => $onlineCourse->teacher,       // Public property
-            "durationInfo" => $onlineCourse->getDurationHours()
+            "status"      => "success",
+            "course_info" => $onlineCourse->getInfo(),
+            "video_info"  => $onlineCourse->showVideo(),
+            "title"       => $onlineCourse->getTitle(),
+            "teacher"     => $onlineCourse->teacher,
+            "duration"    => $onlineCourse->getDurationHours()
         ];
     }
 }
